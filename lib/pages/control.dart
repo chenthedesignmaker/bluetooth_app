@@ -52,21 +52,15 @@ class _ControlState extends State<Control> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(),
+        appBar: AppBar(
+          title: Text(widget.device.name),
+        ),
     body:Column(
 
       children: <Widget>[
-        RaisedButton(
-          onPressed: (){
-            widget.device.discoverServices();
-            findTargetChar();
 
-          },
-          child: Text('Find services'),
-        ),
-        Text(widget.device.name),
-        Text('services'),
-        StreamBuilder<List<BluetoothService>>(
+
+       /* StreamBuilder<List<BluetoothService>>(
           stream: widget.device.services,
           initialData: [],
           builder: (c, snapshot) {
@@ -75,7 +69,7 @@ class _ControlState extends State<Control> {
 
             );
           },
-        ),
+        ),*/
 
 
     _FeedbackText(),
