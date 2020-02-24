@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_blue/flutter_blue.dart';
+import 'package:bluetooth_app/widgets/widgets.dart';
 
 
 
@@ -17,6 +18,7 @@ class Control extends StatefulWidget {
 class _ControlState extends State<Control> {
 
   BluetoothCharacteristic targetC;
+  var lightStatus = false;
 
   @override
   void initState(){
@@ -55,35 +57,37 @@ class _ControlState extends State<Control> {
         appBar: AppBar(
           title: Text(widget.device.name),
         ),
-    body:Column(
+    body:Center(
+      child: Column(
 
-      children: <Widget>[
-
-
-       /* StreamBuilder<List<BluetoothService>>(
-          stream: widget.device.services,
-          initialData: [],
-          builder: (c, snapshot) {
-            return Column(
-              children: _buildServiceTiles(snapshot.data),
-
-            );
-          },
-        ),*/
+        children: <Widget>[
 
 
-    _FeedbackText(),
+         /* StreamBuilder<List<BluetoothService>>(
+            stream: widget.device.services,
+            initialData: [],
+            builder: (c, snapshot) {
+              return Column(
+                children: _buildServiceTiles(snapshot.data),
+
+              );
+            },
+          ),*/
 
 
-        RaisedButton(
-          child: Text("Turn On"),
-          onPressed:() => targetC.write('o'.codeUnits),
-        ),
-        RaisedButton(
-          child: Text("Turn Off"),
-          onPressed:() => targetC.write('f'.codeUnits),
-        ),
-      ],
+      _FeedbackText(),
+
+          bigRoundBtn(onTap:()=>toggleLight()),
+          RaisedButton(
+            child: Text("Turn On"),
+            onPressed:() => targetC.write('o'.codeUnits),
+          ),
+          RaisedButton(
+            child: Text("Turn Off"),
+            onPressed:() => targetC.write('f'.codeUnits),
+          ),
+        ],
+      ),
     )
 
 
@@ -112,9 +116,19 @@ class _ControlState extends State<Control> {
 
   }
 
-  Future<Widget> latestMsg(){
+  toggleLight(){
+    print('toggling');
+    if(targetC != null){
+      if(lightStatus == false){
+        targetC.write('o'.codeUnits);
+        lightStatus = true;
+      }else{
+    targetC.write('f'.codeUnits);
+    lightStatus = false;
+    }}
 
   }
+
 
 
   Widget _FeedbackText(){
@@ -128,7 +142,7 @@ class _ControlState extends State<Control> {
             return Text(String.fromCharCodes(value));
           });
     }else{
-      return SizedBox();
+      return Text('no target yet');
     }
   }
 }
