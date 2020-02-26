@@ -22,8 +22,8 @@ class _ControlState extends State<Control> {
 
   @override
   void initState(){
-    //widget.device.discoverServices();
-    findTargetChar();
+    widget.device.discoverServices();
+    findTargetChar().then(print('found char'));
   }
 
 
@@ -56,10 +56,14 @@ class _ControlState extends State<Control> {
     return Scaffold(
         appBar: AppBar(
           title: Text(widget.device.name),
+          backgroundColor: Colors.white10,
         ),
+    backgroundColor: Colors.black,
     body:Center(
-      child: Column(
 
+
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
 
 
@@ -75,17 +79,10 @@ class _ControlState extends State<Control> {
           ),*/
 
 
-      _FeedbackText(),
+      Container(child: _FeedbackText()),
 
           bigRoundBtn(onTap:()=>toggleLight()),
-          RaisedButton(
-            child: Text("Turn On"),
-            onPressed:() => targetC.write('o'.codeUnits),
-          ),
-          RaisedButton(
-            child: Text("Turn Off"),
-            onPressed:() => targetC.write('f'.codeUnits),
-          ),
+
         ],
       ),
     )
@@ -116,6 +113,7 @@ class _ControlState extends State<Control> {
 
   }
 
+
   toggleLight(){
     print('toggling');
     if(targetC != null){
@@ -139,7 +137,13 @@ class _ControlState extends State<Control> {
           builder: (c, snapshot) {
             final value = snapshot.data;
             //return Text(value.toString());
-            return Text(String.fromCharCodes(value));
+            return Text(String.fromCharCodes(value),
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 50,
+
+              ),
+            );
           });
     }else{
       return Text('no target yet');
