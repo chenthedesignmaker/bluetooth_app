@@ -52,26 +52,14 @@ class _HomeState extends State<Home> {
               icon: Icon(Icons.attach_money),
               label: Text('Go to hero')),
 
-          deviceCard(height:100.0),
-          /*Expanded(
-            child: ListView.builder(
-                itemCount: discoveredDevice.length,
-                itemBuilder:(context, index){
-                  return Card(
-                    child:ListTile(
-                      onTap: (){
-                        print("connecting ${discoveredDevice[index]}");
-                        discoveredDevice[index].device.connect
+          //deviceCard(height:100.0),
+          Hero(
+            tag:"selected",
+            child: deviceCard(height: 100,isExpanded: false,),
+          ),
 
-
-                      },
-                      title: Text(discoveredDevice[index]) ,
-                    ) ,
-                  );
-                }),
-          ),*/
-
-          /*RefreshIndicator(
+     
+          RefreshIndicator(
             onRefresh: () =>
                 (FlutterBlue.instance.startScan(timeout: Duration(seconds: 4))),
             child: SingleChildScrollView(
@@ -100,13 +88,17 @@ class _HomeState extends State<Home> {
                                                 MaterialPageRoute(
                                                     builder: (context) {
                                                   d.connect();
-
                                                   return Control(device: d);
                                                 }),
-                                                *//*onPressed: () => Navigator.of(context).push(
+
+
+          /*onPressed: () => Navigator.of(context).push(
                                 MaterialPageRoute(
                                     builder: (context) =>
-                                        DeviceScreen(device: d))),*//*
+                                        DeviceScreen(device: d))),*/
+
+
+
                                               ));
                                     }
                                     return Text(snapshot.data.toString());
@@ -139,7 +131,9 @@ class _HomeState extends State<Home> {
                 ],
               ),
             ),
-          ),*/
+          ),
+
+
           /* floatingActionButton: StreamBuilder<bool>(
         stream: FlutterBlue.instance.isScanning,
         initialData: false,

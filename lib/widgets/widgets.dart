@@ -42,35 +42,57 @@ class _bigRoundBtnState extends State<bigRoundBtn> {
 
 
 class deviceCard extends StatelessWidget {
-  deviceCard({Key key, this.height}):super(key:key);
+  deviceCard({Key key, this.height,this.isExpanded}):super(key:key);
   final double height;
+  final bool isExpanded;
 
 
   @override
   Widget build(BuildContext context) {
-    return Hero(
-      tag: 'herotest',
-      child: Expanded(
+    return Expanded(
+      child: Container(
+        margin: EdgeInsets.all(20.0),
+        height: isExpanded? null:height,
+        //width: 500,
+        color: Colors.blue,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: <Widget>[
 
-        child: Container(
-          margin: EdgeInsets.all(20.0),
-          height: height,
-          //width: 500,
-          color: Colors.blue,
-          child: Center(
-            child: Material( // had to use material or the text will be glitchy
+
+            Material( // had to use material or the text will be glitchy
               child: new Text(
-                  "I'm hero",
+                "I'm hero",
                 style: TextStyle(
                   fontSize: 34,
                   color: Colors.red,
                 ),
               ),
             ),
-          ),
+
+            isExpanded?ConnectingStatus():SizedBox(),
+
+
+          ],
         ),
       ),
+    );
+  }
+}
 
+
+class ConnectingStatus extends StatefulWidget {
+  @override
+  _ConnectingStatusState createState() => _ConnectingStatusState();
+}
+
+class _ConnectingStatusState extends State<ConnectingStatus> {
+  @override
+  Widget build(BuildContext context) {
+    return Material(
+      child: Container(
+        child: Text('Connectiong'),
+      ),
     );
   }
 }
