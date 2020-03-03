@@ -20,49 +20,59 @@ class _HomeState extends State<Home> {
 
   @override
   void initState() {
-    //FlutterBlue.instance.startScan(timeout: Duration(seconds: 4));
+    FlutterBlue.instance.startScan(timeout: Duration(seconds: 4));
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
-      //backgroundColor: Colors.black,
-
-
-      body:
-      SafeArea(
-          child: Column(
-        children: <Widget>[
-          FlatButton.icon(
+      backgroundColor: Colors.black12,
+      appBar: AppBar(
+        title: Text(
+          'Select Device',
+        ),
+        backgroundColor: Colors.blueGrey,
+        actions: <Widget>[
+          FlatButton(
               onPressed: () {
-                //_scanDevices();
                 FlutterBlue.instance.startScan(timeout: Duration(seconds: 4));
-
-                //Navigator.pushNamed(context, '/control');
               },
-              icon: Icon(Icons.attach_money),
-              label: Text('RESCAN')),
+              child: Text('Rescan')),
+        ],
+      ),
+      body: SafeArea(
+          child: SingleChildScrollView(
+        child: Column(
+          children: <Widget>[
+            /*FlatButton.icon(
+                onPressed: () {
+                  //_scanDevices();
+                  FlutterBlue.instance.startScan(timeout: Duration(seconds: 4));
 
-          FlatButton.icon(
-              onPressed: () {
-                //_scanDevices();
+                  //Navigator.pushNamed(context, '/control');
+                },
+                icon: Icon(Icons.attach_money),
+                label: Text('RESCAN',
+                style: TextStyle(
+
+                  color: Colors.blue,
+                ),)),
+*/
+
+            /*GestureDetector(
+              onTap:(){
                 Navigator.pushNamed(context, '/connecting');
-              },
-              icon: Icon(Icons.attach_money),
-              label: Text('Go to hero')),
+              } ,
+              child: Hero(
+                tag:"selected",
+                child: Text('hero')//deviceCard(height: 100,isExpanded: false,),
+              ),
+            ),
+*/
 
-          //deviceCard(height:100.0),
-          Hero(
-            tag:"selected",
-            child: deviceCard(height: 100,isExpanded: false,),
-          ),
-
-     
-          RefreshIndicator(
-            onRefresh: () =>
-                (FlutterBlue.instance.startScan(timeout: Duration(seconds: 4))),
-            child: SingleChildScrollView(
+            RefreshIndicator(
+              onRefresh: () => (FlutterBlue.instance
+                  .startScan(timeout: Duration(seconds: 4))),
               child: Column(
                 children: <Widget>[
                   StreamBuilder<List<BluetoothDevice>>(
@@ -91,14 +101,10 @@ class _HomeState extends State<Home> {
                                                   return Control(device: d);
                                                 }),
 
-
-          /*onPressed: () => Navigator.of(context).push(
+                                                /*onPressed: () => Navigator.of(context).push(
                                 MaterialPageRoute(
                                     builder: (context) =>
                                         DeviceScreen(device: d))),*/
-
-
-
                                               ));
                                     }
                                     return Text(snapshot.data.toString());
@@ -114,16 +120,23 @@ class _HomeState extends State<Home> {
                     builder: (c, snapshot) => Column(
                       children: snapshot.data
                           .map(
-                            (r) => RaisedButton(
-                              child: Text(r.device.name),
-                              color: Colors.blue,
-                              onPressed: () => Navigator.of(context)
-                                  .push(MaterialPageRoute(builder: (context) {
-                                r.device.connect();
-
-                                return Control(device: r.device);
-                              })),
+                            (r) => deviceCard(
+                              device: r.device,
+                              isExpanded: false,
+                              height: 100.0,
                             ),
+                            /*RaisedButton(
+                                  child: Text(r.device.name),
+                                  color: Colors.blue,
+                                  onPressed: () =>
+                                      Navigator.of(context)
+                                          .push(
+                                          MaterialPageRoute(builder: (context) {
+                                            r.device.connect();
+
+                                            return Control(device: r.device);
+                                          })),
+                                ),*/
                           )
                           .toList(),
                     ),
@@ -131,28 +144,27 @@ class _HomeState extends State<Home> {
                 ],
               ),
             ),
-          ),
 
-
-          /* floatingActionButton: StreamBuilder<bool>(
+            /* floatingActionButton: StreamBuilder<bool>(
         stream: FlutterBlue.instance.isScanning,
         initialData: false,
         builder: (c, snapshot) {
-          if (snapshot.data) {
-            return FloatingActionButton(
-              child: Icon(Icons.stop),
-              onPressed: () => FlutterBlue.instance.stopScan(),
-              backgroundColor: Colors.red,
-            );
-          } else {
-            return FloatingActionButton(
-                child: Icon(Icons.search),
-                onPressed: () => FlutterBlue.instance
-                    .startScan(timeout: Duration(seconds: 4)));
-          }
+            if (snapshot.data) {
+              return FloatingActionButton(
+                child: Icon(Icons.stop),
+                onPressed: () => FlutterBlue.instance.stopScan(),
+                backgroundColor: Colors.red,
+              );
+            } else {
+              return FloatingActionButton(
+                  child: Icon(Icons.search),
+                  onPressed: () => FlutterBlue.instance
+                      .startScan(timeout: Duration(seconds: 4)));
+            }
         },
       ),*/
-        ],
+          ],
+        ),
       )),
     );
   }
